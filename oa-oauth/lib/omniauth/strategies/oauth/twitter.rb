@@ -43,13 +43,13 @@ module OmniAuth
           'description' => user_hash['description'],
           'urls' => {
             'Website' => user_hash['url'],
-            'Twitter' => 'http://twitter.com/' + user_hash['screen_name'],
+            'Twitter' => "http://twitter.com/#{user_hash['screen_name']}" ,
           },
         }
       end
 
       def user_hash
-        @user_hash ||= MultiJson.decode(@access_token.get('/1/account/verify_credentials.json').body)
+        @user_hash ||= MultiJson.decode(@access_token.get('/1.1/account/verify_credentials.json?include_entities=false&skip_status=true').body)
       rescue ::Errno::ETIMEDOUT
         raise ::Timeout::Error
       end
